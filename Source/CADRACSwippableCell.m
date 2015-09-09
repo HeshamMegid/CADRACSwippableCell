@@ -99,10 +99,12 @@
     [[[self rac_signalForSelector:@selector(updateConstraints)] filter:^BOOL(id value) {
         return _contentSnapshotView != nil;
     }] subscribeNext:^(id x) {
-        [self.contentSnapshotView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_contentSnapshotView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_contentSnapshotView)]];
-        [self.contentSnapshotView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_contentSnapshotView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_contentSnapshotView)]];
-        
-        [super updateConstraints];
+        if (self.contentSnapshotView.superview) {
+            [self.contentSnapshotView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_contentSnapshotView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_contentSnapshotView)]];
+            [self.contentSnapshotView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_contentSnapshotView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_contentSnapshotView)]];
+            
+            [super updateConstraints];
+        }
     }];
     
     [self addGestureRecognizer:panGesture];
